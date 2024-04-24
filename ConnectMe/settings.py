@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u+84h9kdt15v8d2ef_20r=h(2pkd)dd5n$##)dq&!2ved0(h^1'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -106,8 +106,8 @@ DATABASES = {
 }
 
 
-# database_url = os.environ.get("DATABASE_URL")
-# DATABASES["default"] = dj_database_url.parse(database_url)
+database_url = os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation
@@ -171,3 +171,24 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'waghajay304@gmail.com'
 EMAIL_HOST_PASSWORD = 'emrbwfwvdkumxvhx'
 DEFAULT_FROM_EMAIL = 'info@connectme.com'
+
+
+
+# Session settings
+SESSION_COOKIE_SECURE = True  # Set to True for HTTPS-only sessions
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Strict'
+
+# CSRF settings
+CSRF_COOKIE_SECURE = True  # Set to True for HTTPS-only CSRF cookies
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Strict'
+
+# Use session-based CSRF protection
+CSRF_USE_SESSIONS = True
+
+# X-Forwarded-Port header support for reverse proxy
+USE_X_FORWARDED_PORT = True
+
+# SSL header for reverse proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
