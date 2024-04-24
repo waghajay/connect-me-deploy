@@ -5,6 +5,7 @@ Automat==22.10.0
 certifi==2024.2.2
 cffi==1.16.0
 channels==3.0.5
+channels-redis==4.2.0
 charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
@@ -19,6 +20,7 @@ h11==0.14.0
 hyperlink==21.0.0
 idna==3.6
 incremental==22.10.0
+msgpack==1.0.8
 oauthlib==3.2.2
 packaging==24.0
 pillow==10.2.0
@@ -29,6 +31,7 @@ pycparser==2.21
 PyJWT==2.8.0
 pyOpenSSL==24.1.0
 python3-openid==3.2.0
+redis==5.0.4
 requests==2.31.0
 requests-oauthlib==2.0.0
 service-identity==24.1.0
