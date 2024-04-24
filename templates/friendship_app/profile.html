@@ -6,11 +6,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static 'static/global/images/favicon.ico' %} ">
+    <link rel="shortcut icon" href="{% static 'global/images/favicon.ico' %} ">
     <title>Profile | @{{ user_profile.user.last_name }}</title>
-    <link rel="stylesheet" href="{% static 'static/global/assets/css/bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'global/assets/css/bundle.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{% static 'static/global/assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'global/assets/css/app.css' %}">
 </head>
 
 <style>
@@ -260,7 +260,7 @@
                                         <li>
                                             <div class="tyn-media-group">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="{% static 'static/global/images/avatar/1.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/1.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -277,7 +277,7 @@
                                         <li>
                                             <div class="tyn-media-group align-items-start">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="{% static 'static/global/images/avatar/2.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/2.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -307,7 +307,7 @@
                                         <li>
                                             <div class="tyn-media-group align-items-start">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="{% static 'static/global/images/avatar/3.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/3.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -348,7 +348,7 @@
                                         <li>
                                             <div class="tyn-media-group">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="{% static 'static/global/images/avatar/4.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/4.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -373,14 +373,14 @@
                         <li class="tyn-appbar-item">
                             <a class="d-inline-flex dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" href="#" data-bs-offset="0,10">
                                 <div class="tyn-media tyn-size-lg tyn-circle">
-                                    <img src="{% static 'static/global/images/avatar/3.jpg' %}" alt="">
+                                    <img src="{% static 'global/images/avatar/3.jpg' %}" alt="">
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <div class="dropdown-gap">
                                     <div class="tyn-media-group">
                                         <div class="tyn-media tyn-size-lg">
-                                            <img src="{% static 'static/global/images/avatar/3.jpg' %}" alt="">
+                                            <img src="{% static 'global/images/avatar/3.jpg' %}" alt="">
                                         </div>
                                         <div class="tyn-media-col">
                                             <div class="tyn-media-row">
@@ -488,7 +488,7 @@
                                     <img src="{{ user_profile.cover_picture.url }}" alt="Cover Image" style="width: 100%;height: 65vh;object-fit: cover;">
                                 {% else %}
                                     <!-- Display a default profile picture or a placeholder image -->
-                                    <img src="{% static 'static/global/images/avatar/cover.jpeg' %}" style="width: 100%;height: 65vh;object-fit: cover;">
+                                    <img src="{% static 'global/images/avatar/cover.jpeg' %}" style="width: 100%;height: 65vh;object-fit: cover;">
                                 {% endif %}
                             </div>
                             <div class="tyn-profile-info" style="background-color: var(--details-bg)">
@@ -498,7 +498,7 @@
                                             <img src="{{ user_profile.profile_picture.url }}" alt="Profile Image">
                                         {% else %}
                                             <!-- Display a default profile picture or a placeholder image -->
-                                            <img src="{% static 'static/global/images/avatar/image.png' %}" alt="Default Profile Picture">
+                                            <img src="{% static 'global/images/avatar/image.png' %}" alt="Default Profile Picture">
                                         {% endif %}
                                     </div>
                                     <div class="tyn-media-col">
@@ -512,19 +512,19 @@
                                         <div class="tyn-media-row pt-2">
                                             <div class="tyn-media-multiple">
                                                 <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
-                                                    <img src="{% static 'static/global/images/avatar/2.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/2.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
-                                                    <img src="{% static 'static/global/images/avatar/3.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/3.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
-                                                    <img src="{% static 'static/global/images/avatar/4.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/4.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
-                                                    <img src="{% static 'static/global/images/avatar/5.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/5.jpg' %}" alt="">
                                                 </div>
                                                 <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
-                                                    <img src="{% static 'static/global/images/avatar/6.jpg' %}" alt="">
+                                                    <img src="{% static 'global/images/avatar/6.jpg' %}" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -868,11 +868,11 @@
             <div class="modal-content border-0">
                 <div class="tyn-chat-call">
                     <div class="tyn-chat-cover">
-                        <img src="{% static 'static/global/images/cover/1.jpg' %}" alt="">
+                        <img src="{% static 'global/images/cover/1.jpg' %}" alt="">
                     </div>
                     <div class="tyn-media-group tyn-media-vr tyn-media-center mt-n4 pb-4">
                         <div class="tyn-media tyn-size-xl tyn-circle border border-2 border-white">
-                            <img src="{% static 'static/global/images/avatar/1.jpg' %}" alt="">
+                            <img src="{% static 'global/images/avatar/1.jpg' %}" alt="">
                         </div>
                         <div class="tyn-media-col">
                             <div class="tyn-media-row has-dot-sap">
@@ -939,7 +939,7 @@
                 <div class="tyn-chat-call tyn-chat-call-video">
                     <div class="tyn-chat-call-stack">
                         <div class="tyn-chat-call-cover">
-                            <img src="{% static 'static/global/images/v-cover/1.jpg' %}" alt="">
+                            <img src="{% static 'global/images/v-cover/1.jpg' %}" alt="">
                         </div>
                     </div>
                     <!-- .tyn-chat-call-stack -->
@@ -957,7 +957,7 @@
                                 </div>
                             </div>
                             <div class="tyn-media tyn-media-1x1_3 tyn-size-3xl border border-2 border-dark">
-                                <img src="{% static 'static/global/images/v-cover/2.jpg' %}" alt="">
+                                <img src="{% static 'global/images/v-cover/2.jpg' %}" alt="">
                             </div>
                         </div>
                         <!-- .tyn-media-group -->
@@ -1028,7 +1028,7 @@
                         <li>
                             <div class="tyn-media-group">
                                 <div class="tyn-media">
-                                    <img src="{% static 'static/global/images/avatar/1.jpg' %}" alt="">
+                                    <img src="{% static 'global/images/avatar/1.jpg' %}" alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
@@ -1056,7 +1056,7 @@
                         <li>
                             <div class="tyn-media-group">
                                 <div class="tyn-media">
-                                    <img src="{% static 'static/global/images/avatar/2.jpg' %}" alt="">
+                                    <img src="{% static 'global/images/avatar/2.jpg' %}" alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
@@ -1084,7 +1084,7 @@
                         <li>
                             <div class="tyn-media-group">
                                 <div class="tyn-media">
-                                    <img src="{% static 'static/global/images/avatar/3.jpg' %}" alt="">
+                                    <img src="{% static 'global/images/avatar/3.jpg' %}" alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
@@ -1112,7 +1112,7 @@
                         <li>
                             <div class="tyn-media-group">
                                 <div class="tyn-media">
-                                    <img src="{% static 'static/global/images/avatar/4.jpg' %}" alt="">
+                                    <img src="{% static 'global/images/avatar/4.jpg' %}" alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
@@ -1140,7 +1140,7 @@
                         <li>
                             <div class="tyn-media-group">
                                 <div class="tyn-media">
-                                    <img src="{% static 'static/global/images/avatar/5.jpg' %}" alt="">
+                                    <img src="{% static 'global/images/avatar/5.jpg' %}" alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
@@ -1181,8 +1181,8 @@
         <!-- .modal-dialog -->
     </div>
     <!-- .modal -->
-    <script src="{% static 'static/global/assets/js/bundle.js' %}"></script>
-    <script src="{% static 'static/global/assets/js/app.js' %}"></script>
+    <script src="{% static 'global/assets/js/bundle.js' %}"></script>
+    <script src="{% static 'global/assets/js/app.js' %}"></script>
 </body>
 
 </html>
