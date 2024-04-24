@@ -14,11 +14,13 @@ daphne==3.0.2
 defusedxml==0.8.0rc2
 dj-database-url==2.1.0
 Django==4.2.7
+gunicorn==22.0.0
 h11==0.14.0
 hyperlink==21.0.0
 idna==3.6
 incremental==22.10.0
 oauthlib==3.2.2
+packaging==24.0
 pillow==10.2.0
 psycopg2-binary==2.9.9
 pyasn1==0.6.0
