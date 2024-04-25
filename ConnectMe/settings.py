@@ -192,3 +192,6 @@ USE_X_FORWARDED_PORT = True
 
 # SSL header for reverse proxy
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+WEBSOCKET_SCHEME = "wss"
