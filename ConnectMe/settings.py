@@ -84,12 +84,9 @@ ASGI_APPLICATION = 'ConnectMe.asgi.application'
 
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("redis-server-name", 6379)],
-        },
-    },
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    }
 }
 
 # Database
