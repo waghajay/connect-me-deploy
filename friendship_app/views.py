@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 import random
 import uuid
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
