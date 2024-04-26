@@ -55,7 +55,7 @@ def UserLogin(request):
             otp_save.otp_expiration_time = timezone.now() + timedelta(minutes=5)
             otp_save.save()
             
-            send_mail_after_login(email,generated_otp)
+            send_mail_after_login(email,generated_otp,user_name)
             
             next_url = request.GET.get('next')
             
@@ -93,86 +93,16 @@ def UserLogin(request):
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
-def send_mail_after_login(email, generated_otp):
+def send_mail_after_login(email, generated_otp,user_name):
     subject = 'OTP Verification'
-    message = f'Thank you for signing up with us! To complete the registration process, please use the OTP provided below:\n\n'
-    message += f'Your OTP is: {generated_otp}\n\n'
-    message += f'If you didn’t request this OTP, you can ignore this email.\n\n'
-    message += f'If you have any questions, please contact us at connectme.pvt.ltd@gmail.com.\n\n'
-    message += f'Best regards,\nThe ConnectMe Team'
-
-    html_message = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>OTP Verification</title>
-      <style>
-        body {{
-          font-family: Arial, sans-serif;
-          font-size: 16px;
-          line-height: 1.5;
-          color: #333;
-          background-color: #f9f9f9;
-        }}
-        h1 {{
-          font-size: 24px;
-          margin-top: 0;
-          margin-bottom: 20px;
-          color: #446688;
-        }}
-        p {{
-          margin-bottom: 10px;
-        }}
-        a {{
-          color: #007bff;
-          text-decoration: underline;
-        }}
-        a:hover {{
-          text-decoration: none;
-        }}
-        .container {{
-          max-width: 600px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #fff;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }}
-        .button {{
-          display: inline-block;
-          padding: 10px 20px;
-          margin-top: 20px;
-          border-radius: 5px;
-          background-color: #007bff;
-          color: #fff;
-          text-decoration: none;
-          font-weight: bold;
-          transition: background-color 0.2s;
-        }}
-        .button:hover {{
-          background-color: #0056b3;
-        }}
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>OTP Verification</h1>
-        <p>Thank you for signing up with us! To complete the registration process, please use the OTP provided below:</p>
-        <p>Your OTP is: <strong>{generated_otp}</strong></p>
-        <p>If you didn't request this OTP, you can ignore this email.</p>
-        <p>If you have any questions, please contact us at <a href="mailto:connectme.pvt.ldt@gmail.com"></a>.</p>
-        <p>Best regards,</p>
-        <p>The ConnectME Team</p>
-      </div>
-    </body>
-    </html>
-    """
-
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [email]
-    send_mail(subject, message, email_from, recipient_list, html_message=html_message)
+    html_content = render_to_string('authentication/send_otp.html', {'user_name': user_name, 'generated_otp': generated_otp})
+    text_content = strip_tags(html_content)
+    msg = EmailMultiAlternatives(subject, text_content, settings.EMAIL_HOST_USER, [email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 
 
 
