@@ -5,6 +5,7 @@ from authentication.models import UserProfile
 from django.db.models import Q
 from friendship_app.models import Friendship
 from chat.models import Room,Message
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -21,7 +22,7 @@ def Index(request):
     return render(request, "chat/chat.html", {"username": username, "requests": check_requests, "user_profile": user_profile,"friends": friends})
 
 
-
+@login_required(login_url="login")  
 def search_users(request):
     query = request.GET.get('query', '')
     if query:
@@ -34,9 +35,7 @@ def search_users(request):
     return JsonResponse({'results': results})
 
 
-
-
-
+@login_required(login_url="login")  
 def get_friend_info(request, friend_id):
     try:
         
@@ -68,10 +67,9 @@ def get_friend_info(request, friend_id):
     
     
 
-from django.http import JsonResponse
-from django.contrib.auth.models import User  # Import the User model if not already imported
-from .models import Message  # Assuming you have a Message model defined
+  # Assuming you have a Message model defined
 
+@login_required(login_url="login")  
 def get_messages_for_room(request, room_name):
     try:
         # Query messages from the database based on the room_name

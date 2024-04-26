@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static 'global/images/favicon.ico' %}">
-    <title>Token Send | ConnectMe | Chat Application</title>
-    <link rel="stylesheet" href="{% static 'global/assets/css/bundle.css' %}">
-    <link rel="stylesheet" href="{% static 'global/assets/css/app.css' %}">
+    <link rel="shortcut icon" href="{% static 'static/global/images/favicon.ico' %}">
+    <title>Password reset sent | ConnectMe | Chat Application</title>
+    <link rel="stylesheet" href="{% static 'static/global/assets/css/bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'static/global/assets/css/app.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="tyn-body">
@@ -17,8 +18,8 @@
         <div class="tyn-content tyn-auth tyn-auth-centered">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-xl-4 col-lg-5 col-md-7 col-sm-9">
-                        <div class="my-3 text-center">
+                    <div class="col-xl-6 col-lg-8">
+                        <div class="mb-3 text-center">
                             <a class="tyn-logo tyn-logo-sm" href="#">
                                 <svg viewBox="0 0 225 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M37.2652 14.793C37.2652 14.793 45.0769 20.3653 41.9523 29.531C41.9523 29.531 41.3794 31.1975 39.0359 34.4264L42.473 37.9677C42.473 37.9677 43.3063 39.4779 41.5877 39.9987H24.9228C24.9228 39.9987 19.6108 40.155 14.8196 36.9782C14.8196 36.9782 12.1637 35.2075 9.76807 31.9787L18.6213 32.0308C18.6213 32.0308 24.2978 31.9787 29.766 28.3332C35.2342 24.6878 37.4215 18.6988 37.2652 14.793Z" fill="#60A5FA" />
@@ -27,25 +28,34 @@
                                 </svg>
                             </a>
                         </div>
-                        <div class="card border-0" style="text-align: center;font-size: 20px;font-weight: 600;padding: 10px 5px 0px 5px;">
-                            <h1>We have send an email to your Email-ID</h1>
-                            <p style="margin-top: 10px;">Please Check Your mail</p>
-                            <div class="" style="display: flex;justify-content: center;">
-                                <a href="{% url "login" %}" class="btn btn-primary" style="width: 80px;">Login</a>
+                        <div class="card border-0">
+                            <div class="p-4">
+                                <h3 style="text-align: center;">Registration Email Sent</h3>
+
+                                <form id="registerForm">
+                                        <div class="row g-3 gx-4">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="form-label p-2 text-center" for="username">We’ve emailed you about the email verification, click on that link to verify your <strong><u><i>Account</i></u></strong><br><br>Kindly Please Check Your E-Mail</label>
+                                                </div>
+                                            </div>
+                                        </div><!-- .row -->
+                                    </form>
+                                    <div class="col-12">
+                                        <a href="{% url "login" %}">
+                                        <button id="submitBtn" class="btn btn-primary w-100">Login</button>
+                                        </a>
+                                    </div>
+                                
                             </div>
-                        </div>
-                        </div>
-                        <!-- .card -->
-                    </div>
-                    <!-- .col -->
-                </div>
-                <!-- .row -->
-            </div>
-            <!-- .container -->
+                        </div><!-- .card -->
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .container -->
         </div>
     </div>
-    <script src="{% static 'global/assets/js/bundle.js' %}"></script>
-    <script src="{% static 'global/assets/js/app.js' %}"></script>
+    <script src="{% static 'static/global/assets/js/bundle.js' %}"></script>
+    <script src="{% static 'static/global/assets/js/app.js' %}"></script>
 </body>
 
 </html>

@@ -12,9 +12,8 @@ import random
 import uuid
 
 
-
 # Create your views here.
-
+@login_required(login_url="login")  
 def Profile(request,username):
     user = str(request.user)
     user_profile = get_object_or_404(UserProfile, user__last_name=username)
@@ -48,7 +47,7 @@ def Profile(request,username):
     return render(request,"friendship_app/profile.html",{ "user_profile" : user_profile })
 
 
-
+@login_required(login_url="login")  
 @csrf_exempt
 def send_request(request, to_user_id):
     if request.method == 'POST':        
@@ -64,6 +63,8 @@ def send_request(request, to_user_id):
     else:
         pass
 
+
+@login_required(login_url="login")  
 def accept_request(request, to_user_id):
     from_user = request.user
     to_user = User.objects.get(id=to_user_id)
@@ -96,7 +97,8 @@ def accept_request(request, to_user_id):
     else:
         return HttpResponse("No pending friend request found.")
     
-    
+
+@login_required(login_url="login")     
 def reject_request(request, to_user_id):
     from_user = request.user
     to_user = User.objects.get(id=to_user_id)

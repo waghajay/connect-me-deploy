@@ -8,16 +8,18 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import datetime,timedelta
+from django.urls import reverse
+from authentication.models import UserProfile
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.db import IntegrityError
 import uuid
 import random
 import re
-from django.urls import reverse
-from authentication.models import UserProfile
-
 # Create your views here.
 
-def UserLogin(request):    
-    
+def UserLogin(request):       
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -41,17 +43,12 @@ def UserLogin(request):
             
             if user is None:
                 messages.success(request, "Wrong Password")
-                return render(request, "authentication/login.html",{"email":email})
-            
+                return render(request, "authentication/login.html",{"email":email})           
   
             
-            generated_otp = random.randint(11111,99999)
-            
-            
-            auth_user = User.objects.filter(username=email).first()
-            
-            user_name = auth_user.first_name
-            
+            generated_otp = random.randint(11111,99999)           
+            auth_user = User.objects.filter(username=email).first()            
+            user_name = auth_user.first_name            
             otp_save = UserProfile.objects.get(user=auth_user)
             otp_save.otp = generated_otp
             otp_save.otp_expiration_time = timezone.now() + timedelta(minutes=5)
@@ -92,12 +89,6 @@ def UserLogin(request):
     return render(request, "authentication/login.html")
 
 
-
-from django.core.mail import send_mail
-from django.conf import settings
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-
 def send_mail_after_login(email, generated_otp,user_name):
     subject = 'OTP Verification'
     html_content = render_to_string('authentication/send_otp.html', {'user_name': user_name, 'generated_otp': generated_otp})
@@ -106,9 +97,6 @@ def send_mail_after_login(email, generated_otp,user_name):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-
-
-from django.db import IntegrityError
 
 def UserRegister(request):
     if request.method == "POST":
@@ -141,7 +129,6 @@ def UserRegister(request):
     return render(request, 'authentication/register.html')
 
 
-
 def token_send(request):
     return render(request,'authentication/token_send.html')
 
@@ -171,12 +158,6 @@ def Suceess(request):
     return render(request,'authentication/success.html')
 
 
-
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.conf import settings
-
 def send_mail_after_registration(email, token, name):
     subject = 'Email Confirmation || ConnectME'
     html_content = render_to_string('authentication/email_confirmation.html', {'name': name, 'token': token})
@@ -185,12 +166,7 @@ def send_mail_after_registration(email, token, name):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-    
-    
-    
-    
-    
-    
+     
 @login_required(login_url="login")  
 def UpdateProfile(request):
         if request.method == "POST":
