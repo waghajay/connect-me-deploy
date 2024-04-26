@@ -18,7 +18,7 @@ def Index(request):
     
     friends = user_profile.friends.all()
     
-    return render(request, "chat/index.html", {"username": username, "requests": check_requests, "user_profile": user_profile,"friends": friends})
+    return render(request, "chat/chat.html", {"username": username, "requests": check_requests, "user_profile": user_profile,"friends": friends})
 
 
 
@@ -35,11 +35,6 @@ def search_users(request):
 
 
 
-def ChatPage(request,username):
-    user = request.user
-    user_profile = UserProfile.objects.filter(user=user).first()
-    friends = user_profile.friends.all()
-    return render(request, "chat/chat.html",{ "user_profile" : user_profile, "friends" :friends })
 
 
 def get_friend_info(request, friend_id):
