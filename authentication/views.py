@@ -50,6 +50,8 @@ def UserLogin(request):
             
             auth_user = User.objects.filter(username=email).first()
             
+            user_name = auth_user.first_name
+            
             otp_save = UserProfile.objects.get(user=auth_user)
             otp_save.otp = generated_otp
             otp_save.otp_expiration_time = timezone.now() + timedelta(minutes=5)
