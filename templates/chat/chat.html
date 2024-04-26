@@ -204,13 +204,41 @@
                             </div><!-- .dropdown-menu -->
                         </li><!-- .tyn-appbar-item -->
                         <li class="tyn-appbar-item">
-                            <a class="tyn-appbar-link dropdown-toggle" data-bs-toggle="dropdown" href="#" data-bs-offset="0,10" data-bs-auto-close="outside">
+                            <a class="tyn-appbar-link dropdown-toggle position-relative" data-bs-toggle="dropdown" href="#" data-bs-offset="0,10" data-bs-auto-close="outside">
                                 <!-- app-indicator -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
                                     <path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z" />
                                     <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                                 </svg>
+                                <div class="badge bg-primary position-absolute rounded-pill top-0 end-0 mt-n1 me-n1" id="total-notification-count" style="display: none;"></div>
                                 <span class="d-none">Notifications</span>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        // Function to update the notification count
+                                        function updateNotificationCount() {
+                                            // Get the counts of unread and all notifications
+                                            var unreadCount = document.querySelectorAll('#notifications-unread li').length;
+                                            var allCount = document.querySelectorAll('#notifications-all li').length;
+                                
+                                            // Calculate the total count
+                                            var totalCount = unreadCount + allCount;
+                                
+                                            // Display the total count if either unreadCount or allCount is greater than 0
+                                            if (totalCount > 0) {
+                                                var notificationCountElement = document.getElementById('total-notification-count');
+                                                notificationCountElement.textContent = totalCount;
+                                                notificationCountElement.style.display = 'inline-block';
+                                            } else {
+                                                // Hide the count if there are no notifications
+                                                document.getElementById('total-notification-count').style.display = 'none';
+                                            }
+                                        }
+                                
+                                        // Call the function initially to set the initial counts
+                                        updateNotificationCount();
+                                    });
+                                </script>                                
+                                                           
                             </a>
                             <div class="dropdown-menu dropdown-menu-rg dropdown-menu-end">
                                 <div class="dropdown-head">
@@ -219,18 +247,145 @@
                                     </div>
                                     <ul class="nav nav-tabs nav-tabs-line">
                                         <li class="nav-item">
-                                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications-unread" type="button"> Unread </button>
+                                            <button class="nav-link" id="requests-tab" type="button"> Requests </button>
                                         </li>
                                         <li class="nav-item">
-                                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#notifications-all" type="button"> All </button>
+                                            <button class="nav-link active" id="all-tab" type="button"> All </button>
                                         </li>
                                     </ul>
-                                </div><!-- .dropdown-head -->
+                                </div>
+                                <!-- .dropdown-head -->
                                 <div class="dropdown-gap">
-                                    <ul class="tyn-media-list gap gap-3">
+                                    <ul id="notifications-unread" class="tyn-media-list gap gap-3" style="display: none;">
+                                        <!-- Content for Unread Notifications (Call History) -->
+
+                                        {% if requests %}
+
+                                        
+                                        {% for request in requests %}
+
+                                        <li>
+                                            <div class="tyn-media-group align-items-start">
+                                                <div class="tyn-media tyn-circle">
+                                                    <img src="{{ request.user.profile_picture.url }}" alt="Profile Image">
+                                                </div>
+                                                <div class="tyn-media-col">
+                                                    <div class="tyn-media-row">
+                                                        <span class="message"><strong>{{ request.from_user.first_name }}</strong> @{{ request.from_user.last_name }}<br> Added You</span>
+                                                    </div>
+                                                    <div class="tyn-media-row has-dot-sap">
+                                                        <span class="meta">{{ request.created_at }}</span>
+                                                    </div>
+                                                    <div class="tyn-media-row">
+                                                        <ul class="tyn-btn-inline gap gap-3 pt-1">
+                                                            <li>
+                                                                <a href="#" id="accept_link" data-accept-url="{% url 'accept_request' request.from_user.id %}" style="color: white;">
+                                                                <button class="btn btn-md btn-primary">
+                                                                    <!-- check2-circle -->
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                                                                        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"></path>
+                                                                        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"></path>
+                                                                    </svg>
+                                                                    <span>Accept</span>
+                                                                </button>
+                                                                </a>                                                                   
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#" id="reject_link" data-reject-url="{% url 'reject_request' request.from_user.id %}" style="color: white;">
+                                                                <button class="btn btn-md btn-light">
+                                                                    <!-- x-circle -->
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                                                                    </svg>
+                                                                    <span>Reject</span>
+                                                                </button>
+                                                                </a> 
+                                                            </li>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        // Attach the event listener to the <a> tag
+                                                                        $('a#accept_link').on('click', function(event) {
+                                                                            event.preventDefault(); // Prevent the default behavior of the link
+                                                                            
+                                                                            // Get the URL for accepting the request from the data attribute of the link
+                                                                            var acceptUrl = $(this).data('accept-url');
+                                                                            
+                                                                            // Store a reference to the parent <li> element
+                                                                            var parentLi = $(this).closest('.tyn-media-group').parent();
+                                                                            
+                                                                            // Make an AJAX request to accept the friend request
+                                                                            $.ajax({
+                                                                                url: acceptUrl,
+                                                                                type: 'GET',
+                                                                                success: function(response) {
+                                                                                    // Remove the parent <li> element upon successful response
+                                                                                    parentLi.remove();
+                                                                                    location.reload();
+                                                                                    console.log(response);
+                                                                                },
+                                                                                error: function(xhr, status, error) {
+                                                                                    // Handle errors here (e.g., display an error message)
+                                                                                    console.error(error);
+                                                                                }
+                                                                            });
+                                                                        });
+                                                                    });
+                                                                </script>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        // Attach the event listener to the <a> tag
+                                                                        $('a#reject_link').on('click', function(event) {
+                                                                            event.preventDefault(); // Prevent the default behavior of the link
+                                                                            
+                                                                            // Get the URL for accepting the request from the data attribute of the link
+                                                                            var acceptUrl = $(this).data('reject-url');
+                                                                            
+                                                                            // Store a reference to the parent <li> element
+                                                                            var parentLi = $(this).closest('.tyn-media-group').parent();
+                                                                            
+                                                                            // Make an AJAX request to accept the friend request
+                                                                            $.ajax({
+                                                                                url: acceptUrl,
+                                                                                type: 'GET',
+                                                                                success: function(response) {
+                                                                                    // Remove the parent <li> element upon successful response
+                                                                                    parentLi.remove();
+                                                                                    console.log(response);
+                                                                                },
+                                                                                error: function(xhr, status, error) {
+                                                                                    // Handle errors here (e.g., display an error message)
+                                                                                    console.error(error);
+                                                                                }
+                                                                            });
+                                                                        });
+                                                                    });
+                                                                </script>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .tyn-media-group -->
+                                        </li><!-- li -->
+
+                                        {% endfor %}
+                                        
+                                        {% else %}
+
+                                        No Requests Yet
+                                        
+                                        {% endif %}
+
+
+                                    </ul>
+                                    <!-- .tyn-media-list -->
+                                    
+                                    <ul id="notifications-all" class="tyn-media-list gap gap-3">
+                                        <!-- Content for All Notifications (Friend Requests) -->
                                         <li>
                                             <div class="tyn-media-group">
                                                 <div class="tyn-media tyn-circle">
+                                                    <img src="images/avatar/1.jpg" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -245,6 +400,7 @@
                                         <li>
                                             <div class="tyn-media-group align-items-start">
                                                 <div class="tyn-media tyn-circle">
+                                                    <img src="images/avatar/2.jpg" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -259,7 +415,7 @@
                                                                 <button class="btn btn-md btn-light">
                                                                     <!-- telephone -->
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
-                                                                        <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                                                        <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"></path>
                                                                     </svg>
                                                                     <span>Call Back</span>
                                                                 </button>
@@ -269,47 +425,11 @@
                                                 </div>
                                             </div><!-- .tyn-media-group -->
                                         </li><!-- li -->
-                                        <li>
-                                            <div class="tyn-media-group align-items-start">
-                                                <div class="tyn-media tyn-circle">
-                                                </div>
-                                                <div class="tyn-media-col">
-                                                    <div class="tyn-media-row">
-                                                        <span class="message"><strong>Thomas Poulain</strong> Added You</span>
-                                                    </div>
-                                                    <div class="tyn-media-row has-dot-sap">
-                                                        <span class="meta">1 weeks ago</span>
-                                                    </div>
-                                                    <div class="tyn-media-row">
-                                                        <ul class="tyn-btn-inline gap gap-3 pt-1">
-                                                            <li>
-                                                                <button class="btn btn-md btn-primary">
-                                                                    <!-- check2-circle -->
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
-                                                                        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                                                                        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
-                                                                    </svg>
-                                                                    <span>Accept</span>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="btn btn-md btn-light">
-                                                                    <!-- x-circle -->
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                                                    </svg>
-                                                                    <span>Reject</span>
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div><!-- .tyn-media-group -->
-                                        </li><!-- li -->
+                                        
                                         <li>
                                             <div class="tyn-media-group">
                                                 <div class="tyn-media tyn-circle">
+                                                    <img src="images/avatar/4.jpg" alt="">
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -321,10 +441,44 @@
                                                 </div>
                                             </div><!-- .tyn-media-group -->
                                         </li><!-- li -->
-                                    </ul><!-- .tyn-media-list -->
-                                </div><!-- .dropdown-gap -->
-                            </div><!-- .dropdown-menu -->
-                        </li><!-- .tyn-appbar-item -->
+                                    </ul>
+                                    <!-- .tyn-media-list -->
+                                </div>
+                                <!-- .dropdown-gap -->
+                            </div>
+                            
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    // Get the "Requests" and "All" buttons
+                                    var requestsTab = document.getElementById("requests-tab");
+                                    var allTab = document.getElementById("all-tab");
+                                    
+                                    // Add click event listener to the "Requests" button
+                                    requestsTab.addEventListener("click", function() {
+                                        // Add active class to "Requests" button and remove from "All" button
+                                        requestsTab.classList.add("active");
+                                        allTab.classList.remove("active");
+                                        
+                                        // Show the content for "Requests" and hide the content for "All"
+                                        document.getElementById("notifications-unread").style.display = "block";
+                                        document.getElementById("notifications-all").style.display = "none";
+                                    });
+                                    
+                                    // Add click event listener to the "All" button
+                                    allTab.addEventListener("click", function() {
+                                        // Add active class to "All" button and remove from "Requests" button
+                                        allTab.classList.add("active");
+                                        requestsTab.classList.remove("active");
+                                        
+                                        // Show the content for "All" and hide the content for "Requests"
+                                        document.getElementById("notifications-all").style.display = "block";
+                                        document.getElementById("notifications-unread").style.display = "none";
+                                    });
+                                });
+                            </script>
+                            
+                            <!-- .dropdown-menu -->
+                        </li>
                         <li class="tyn-appbar-item">
                             <a class="d-inline-flex dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" href="#" data-bs-offset="0,10">
                                 <div class="tyn-media tyn-size-lg tyn-circle">
