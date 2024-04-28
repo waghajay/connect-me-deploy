@@ -40,13 +40,18 @@ def index(request):
 
 
 
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+
 def get_user_details(request):
-    user_id = request.GET.get('userId')
-    user = User.objects.get(id=user_id)
-    # Retrieve user details as needed
-    # For example:
-    user_profile = UserProfile.objects.get(user=user)
-    # Store the name in the session
-    request.session['other_user_name'] = user_profile.user.last_name
-    # Perform any other operations if needed
-    return JsonResponse({'status': 'success'})
+    if request.method == 'GET':
+        user_id = request.GET.get('userId')
+        try:
+            user = User.objects.get(id=user_id)
+            first_name = user.first_name
+            return JsonResponse({'status': 'success', 'first_name': first_name})
+        except User.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'User not found'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
