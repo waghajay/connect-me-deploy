@@ -6,15 +6,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static 'global/images/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'static/global/images/favicon.ico' %}">
     <title>ConnectMe.. | Chat </title>
-    <link rel="stylesheet" href="{% static 'global/assets/css/bundle.css' %}">
-    <link rel="stylesheet" href="{% static 'global/assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/app.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
-<body class="tyn-body">
+<body   class="tyn-body">
 
 
 
@@ -385,7 +385,7 @@
                                         <li>
                                             <div class="tyn-media-group">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="images/avatar/1.jpg" alt="">
+                                                    {% comment %} <img src="images/avatar/1.jpg" alt=""> {% endcomment %}
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -400,7 +400,7 @@
                                         <li>
                                             <div class="tyn-media-group align-items-start">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="images/avatar/2.jpg" alt="">
+                                                    {% comment %} <img src="images/avatar/2.jpg" alt=""> {% endcomment %}
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -429,7 +429,7 @@
                                         <li>
                                             <div class="tyn-media-group">
                                                 <div class="tyn-media tyn-circle">
-                                                    <img src="images/avatar/4.jpg" alt="">
+                                                    {% comment %} <img src="images/avatar/4.jpg" alt=""> {% endcomment %}
                                                 </div>
                                                 <div class="tyn-media-col">
                                                     <div class="tyn-media-row">
@@ -2103,7 +2103,7 @@
                                     <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
                                 </svg>
                             </button></li>
-                        <li><button class="btn btn-icon btn-light" data-bs-toggle="modal" data-bs-target="#videoCallingScreen" onclick="connectSocket()">
+                        <li><button class="btn btn-icon btn-light" id="videoCallButton">
                                 <!-- camera-video-fill -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video-fill" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5z" />
@@ -2913,7 +2913,7 @@
                                 </div>
                                 <div class="tyn-media-row">
                                     <h6 class="name" id="another_user_username_for_call" style="display: none;"></h6>
-                                    <h6 class="name" id="logged_user_username_for_call" style="display: none;">{{ user_profile.user.email}}</h6>
+                                    <h6 class="name" id="logged_user_username_for_call" style="display: none;">{{ user_profile.user.last_name}}</h6>
                                     <h6 class="name" id="video_call_name" style="color: black;">Konstantin Frank</h6>
                                 </div>
                             </div>
@@ -3164,7 +3164,6 @@
 
 
 
-
     <div class="modal fade" tabindex="-1" id="deleteChat">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content border-0">
@@ -3271,10 +3270,15 @@
             
         </script>
 
-    <script src="{% static 'global/assets/js/bundle.js' %}"></script>
-    <script src="{% static 'global//assets/js/app.js' %}"></script>
-    <script src="{% static 'global//assets/js/call.js' %}"></script>
-    <style>       
+    <script src="{% static 'global/js/bundle.js' %}"></script>
+    <script src="{% static 'static/global//assets/js/app.js' %}"></script>
+    <style>
+        {% comment %} .incoming-image, .outgoing-image {
+            max-width: 100px; /* Adjust the maximum width of the image */
+            max-height: 100px; /* Adjust the maximum height of the image */
+            margin-right: 10px; /* Spacing between image and username */
+        } {% endcomment %}
+        
         /* Style for the username */
         .message-username {
             font-weight: bold;
@@ -3298,6 +3302,7 @@
         let roomName;
         let userName;
         let socket; // Declare socket variable globally
+        let another_user_id;
     
         // Function to fetch messages from the server
         function fetchMessages() {
@@ -3393,12 +3398,7 @@
             // Append the main container to the message container
             document.getElementById('tynReply').appendChild(container);
         }
-        
-        
-        
-
-        
-        
+   
         function appendOutgoingImage(imageUrl) {
             // Create a container for the image and username
             const container = document.createElement('div');
@@ -3431,10 +3431,7 @@
             // Open a new window with the clicked image
             const popupWindow = window.open(imageUrl, '', 'width=800,height=600');
             popupWindow.focus(); // Ensure the popup window is in focus
-        }
-        
-        
-    
+        }      
     
         // Add click event listener to friend items
         document.querySelectorAll('.friend-item').forEach(item => {
@@ -3453,6 +3450,7 @@
                         const friendName = friendInfo.first_name;
                         const friendImage = friendInfo.profile_picture;
                         const friendImageString = friendImage.toString();
+                        another_user_id = friendInfo.id;
     
                         // Update friend name
                         document.querySelector('#main-name').textContent = friendName;
@@ -3475,9 +3473,8 @@
                         // Show tynMain
     
                         // Connect to WebSocket only after friend is clicked
-                        let ws_scheme = window.location.protocol == "https:" ? "wss://" : "ws://";
                         socket = new WebSocket(
-                            ws_scheme
+                            'ws://'
                             + window.location.host
                             + '/ws/chat/'
                             + roomName
@@ -3576,13 +3573,36 @@
                 alert('Please enter a message or select an image file.');
             }
         };
+
+
+        {% comment %} document.getElementById('videoCallButton').addEventListener('click', () => {
+            const userId = 3; // Replace 3 with the actual user ID you want to call
+            window.location.href = `/calling/${userId}`;
+        }); {% endcomment %}
+
+        $('#videoCallButton').on('click', function() {
+            var userId = another_user_id;
+            $.ajax({
+                url: '/call/get_user_details/',
+                type: 'GET',
+                data: { userId: userId },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.href = '/call/';
+                    } else {
+                        console.error('Failed to fetch user details.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
     </script>
     
     <!-- Scripts for sending the images and messages end to  here -->
 
     <!-- Scripts for video call functionality start from here -->
-
-
 
     
 
