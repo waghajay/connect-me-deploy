@@ -7,7 +7,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("chat.urls")),
     path("authentication/",include("authentication.urls")),
-    path("profile/",include("friendship_app.urls"))
+    path("profile/",include("friendship_app.urls")),
+    path("call/", include('call.urls')),
 ]
 
 
