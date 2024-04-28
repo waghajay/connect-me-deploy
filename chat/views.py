@@ -52,6 +52,7 @@ def get_friend_info(request, friend_id):
 
         friend_info = {
             'first_name': friend.user.first_name,
+            'id': friend.user.id,
             'last_name': friend.user.last_name,
             'email': friend.user.email, 
             'profile_picture': friend.profile_picture.url,
