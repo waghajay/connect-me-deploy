@@ -70,7 +70,7 @@ def get_friend_info(request, friend_id):
 
   # Assuming you have a Message model defined
 
-@login_required(login_url="login")  
+# @login_required(login_url="login")  
 def get_messages_for_room(request, room_name):
     try:
         # Query messages from the database based on the room_name
