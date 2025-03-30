@@ -6,17 +6,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'call/logo.png'%}" type="image/png" />
-    <title>Video Call</title>
-    <link rel="stylesheet" href="{% static 'call/call.css' %} ">
+    <title>Video Call | {{ request.user.first_name }}</title>
+    <link rel="stylesheet" href="{% static 'call/call.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --dark-color: #202124;
+            --light-color: #f8f9fa;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: var(--dark-color);
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Login Section */
+        #userName {
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding-top: 24px;
-            min-height: 90vh;
+            flex: 1;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .login-card img.logo {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+
+        /* User Info Section */
+        #userInfo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-profile h3 {
+            font-weight: 500;
+        }
+
+        /* Call Controls */
+        .action-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        .action-button.danger {
+            background-color: var(--danger-color);
+        }
+
+        .action-button.success {
+            background-color: var(--secondary-color);
+        }
+
+        /* Call Section */
+        #call {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .call-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .call-card h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        /* Video Section */
+        #videos {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: var(--dark-color);
+            aspect-ratio: 16/9;
+            display: none;
+        }
+
+        #remoteVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #localVideo {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 20%;
+            max-width: 200px;
+            border-radius: var(--border-radius);
+            border: 2px solid white;
+            box-shadow: var(--box-shadow);
+            z-index: 10;
+        }
+
+        .call-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .control-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .control-button.end-call {
+            background: var(--danger-color);
+        }
+
+        /* Status Cards */
+        .status-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .status-card h2 {
+            margin-bottom: 20px;
+        }
+
+        .status-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .status-card .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-card, .call-card, .status-card {
+                padding: 20px;
+            }
+            
+            #localVideo {
+                width: 30%;
+            }
+            
+            .control-button {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
         }
     </style>
 
@@ -26,132 +273,103 @@
 </head>
 
 <body onload="login()">
-    <div>
-        <div>
-            <!-- to input username and login -->
-            <div id="userName">
-                <div style="display: flex; flex-direction: column; align-items: center; width: 300px;">
-                    <input placeholder="What should we call you?"
-                        style="text-align:center; height: 50px; font-size: xx-large;" type="text" name=""
-                        id="userNameInput" value="{{ request.user.last_name }}">
-                    <div style="height: 5px;"></div>
-                    <button onclick="login()" class="actionButton">Login</button>
+    <div class="container">
+        <!-- Login Section -->
+        <div id="userName">
+            <div class="login-card">
+                <img src="{% static 'call/logo.png'%}" alt="Logo" class="logo">
+                <h2>Welcome to Video Chat</h2>
+                <p>Enter your name to start</p>
+                <div style="margin: 25px 0;">
+                    <input type="text" id="userNameInput" placeholder="Your name" 
+                           class="input-field" value="{{ request.user.last_name }}">
                 </div>
-            </div>
-
-            <!-- to display current login user information  -->
-            <div id="userInfo">
-                <div style="display: flex; flex-direction: column; align-items: center; width: 300px;">
-                    <h1>Hello, <span id="nameHere"></span>{{ request.user.first_name }}</h1>
-                </div>
-
-            </div>
-
-            <!-- to make a call with name -->
-            <div id="call">
-                <div class="dialWrapper">
-                    <input placeholder="Whom to call?" style="text-align:center; height: 50px; font-size: xx-large;"
-                        type="text" name="callName" id="callName" {% if other_user_name %} value="{{other_user_name}}"{% endif %}>
-                    <div class="dialNumpadHWrapper">
-                        <div class="dialNumber">
-                        </div>
-                        <div class="dialNumber">
-                            <button class="dialActionButton" onclick="call()">Call</button>
-                        </div>
-                        <div class="dialNumber">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- to show incommming call and accept -->
-            <div id="answer">
-                <div class="incomingWrapper">
-                    <div class="itemWrapper">
-                        <h2>Incomming Call</h2>
-                    </div>
-                    <div class="itemWrapper">
-                        <img id="profileImageA" style="padding: 30px; width: 140px; height: 140px;"
-                            src="{% static 'call/profile.png'%}" alt="">
-                    </div>
-                    <div class="itemWrapper">
-                        <h2 style="line-height: 0px;"><span id="callerName"></span></h2>
-                    </div>
-                    <div class="itemWrapper" style="display: flex; flex-direction: row; margin-bottom: 20px;">
-                        <button class="actionButton" onclick="answer()">Answer</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- to show outgoing call -->
-            <div id="calling">
-                <div class="incomingWrapper">
-                    <div class="itemWrapper">
-                        <h2>Calling</h2>
-                    </div>
-                    <div class="itemWrapper">
-                        <img id="profileImageCA" style="padding: 30px; width: 140px; height: 140px;"
-                            src="{% static 'call/profile.png'%}" alt="">
-                    </div>
-                    <div class="itemWrapper">
-                        <h3 style="line-height: 0px;"><span id="otherUserNameCA"></span>{{first_name}}</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- to show call in progress call -->
-            <div id="inCall">
-                <div class="incomingWrapper">
-                    <div class="itemWrapper">
-                        <h3>On Call With</h3>
-                        <h2 style="line-height: 0px;"><span id="otherUserNameC"></span></h2>
-                    </div>
-                </div>
-            </div>
-
-            <br>
-
-            <!-- to show local and remote video -->
-            <div id="videos">
-                <div style="position:absolute; top:0; right:0; padding-right: 20px; padding-top: 20px">
-                    <video width="100px" id="localVideo" autoplay muted playsinline></video>
-                </div>
-                <div id="remoteVideoDiv">
-                    <video style="width: 500px;" id="remoteVideo" autoplay playsinline></video>
-                </div>
-            </div>
-            <div style="flex-grow: 1;">
+                <button onclick="login()" class="action-button">
+                    <i class="fas fa-sign-in-alt"></i> Continue
+                </button>
             </div>
         </div>
 
+        <!-- User Info Section -->
+        <div id="userInfo" style="display: none;">
+            <div class="user-profile">
+                <img src="{% static 'call/profile.png'%}" alt="Profile">
+                <h3>Hello, <span id="nameHere"></span>{{ request.user.first_name }}</h3>
+            </div>
+            <button onclick="logout()" class="action-button danger" style="padding: 8px 16px;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
 
+        <!-- Call Section -->
+        <div id="call" style="display: none;">
+            <div class="call-card">
+                <h2>Start a New Call</h2>
+                <div style="margin: 20px 0;">
+                    <input type="text" id="callName" placeholder="Enter recipient's name" 
+                           class="input-field" {% if other_user_name %} value="{{other_user_name}}"{% endif %}>
+                </div>
+                <button onclick="call()" class="action-button success">
+                    <i class="fas fa-phone"></i> Call Now
+                </button>
+            </div>
+        </div>
 
+        <!-- Incoming Call Section -->
+        <div id="answer" class="status-card">
+            <h2>Incoming Call</h2>
+            <img id="profileImageA" src="{% static 'call/profile.png'%}" alt="Caller">
+            <h3><span id="callerName"></span> is calling</h3>
+            <div class="action-buttons">
+                <button onclick="declineCall()" class="action-button danger">
+                    <i class="fas fa-phone-slash"></i> Decline
+                </button>
+                <button onclick="answer()" class="action-button success">
+                    <i class="fas fa-phone"></i> Answer
+                </button>
+            </div>
+        </div>
 
+        <!-- Outgoing Call Section -->
+        <div id="calling" class="status-card">
+            <h2>Calling...</h2>
+            <img id="profileImageCA" src="{% static 'call/profile.png'%}" alt="Recipient">
+            <h3><span id="otherUserNameCA"></span>{{first_name}}</h3>
+            <div style="margin-top: 30px;">
+                <button onclick="cancelCall()" class="action-button danger">
+                    <i class="fas fa-phone-slash"></i> Cancel
+                </button>
+            </div>
+        </div>
 
-    </div>
-    <div style="flex-grow: 1;">
-    </div>
-    <div>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <a href="https://www.youtube.com/watch?v=N7lbtbmqLvM">
-                Video Call in Django with WebRTC and Django Channels (Video Guide)
-            </a>
-            <a href="https://www.bloggernepal.com/2021/10/video-call-in-django-with-webrtc-and-channels.html">
-                Video Call in Django with WebRTC and Channels (Article)
-            </a>
-            <a href="https://www.bloggernepal.com/2021/05/setup-stun-and-turn-server-on-ubuntu.html">
-                Setup STUN and TURN server on Ubuntu
-            </a>
-            <a href="https://github.com/InfoDevkota/WebRTC-Django-Django-Channels-Video-Call">
-                Github Repository
-            </a>
+        <!-- Active Call Section -->
+        <div id="inCall" class="status-card">
+            <h2>Call Connected</h2>
+            <h3>With <span id="otherUserNameC"></span></h3>
+        </div>
+
+        <!-- Video Section -->
+        <div id="videos">
+            <video id="remoteVideo" autoplay playsinline></video>
+            <video id="localVideo" autoplay muted playsinline></video>
+            
+            <div class="call-controls">
+                <button class="control-button" onclick="toggleMute()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="control-button" onclick="toggleVideo()">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="control-button end-call" onclick="endCall()">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+            </div>
         </div>
     </div>
-
 
     <script src="{% static 'call/call.js'%}"></script>
     <script>
+        // Initialize all sections as hidden
         document.getElementById("call").style.display = "none";
         document.getElementById("userInfo").style.display = "none";
         document.getElementById("answer").style.display = "none";
@@ -159,22 +377,54 @@
         document.getElementById("calling").style.display = "none";
         document.getElementById("videos").style.display = "none";
 
-    </script>
-    <script>
         function login() {
             let userName = document.getElementById("userNameInput").value;
+            if (!userName.trim()) {
+                alert("Please enter your name");
+                return;
+            }
+            
             myName = userName;
             document.getElementById("userName").style.display = "none";
-            document.getElementById("call").style.display = "block";
-
-            
-            document.getElementById("userInfo").style.display = "block";
+            document.getElementById("call").style.display = "flex";
+            document.getElementById("userInfo").style.display = "flex";
+            document.getElementById("nameHere").textContent = userName;
 
             connectSocket();
 
             {% if other_user_name %}
-            call();s
+            call();
             {% endif %}
+        }
+
+        function logout() {
+            // Implement logout functionality
+            document.getElementById("userName").style.display = "flex";
+            document.getElementById("call").style.display = "none";
+            document.getElementById("userInfo").style.display = "none";
+            document.getElementById("userNameInput").value = "";
+            
+            // Add any cleanup for ongoing calls
+        }
+
+        function toggleMute() {
+            // Implement mute toggle
+        }
+
+        function toggleVideo() {
+            // Implement video toggle
+        }
+
+        function endCall() {
+            // Implement end call functionality
+        }
+
+        function declineCall() {
+            // Implement decline call functionality
+        }
+
+        function cancelCall() {
+            // Implement cancel call functionality
         }
     </script>
 </body>
