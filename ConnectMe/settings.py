@@ -166,7 +166,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'waghajay304@gmail.com'
-EMAIL_HOST_PASSWORD = 'aodsettbbigwuajd'
+EMAIL_HOST_PASSWORD = 'aods ettb bigw uajd'
 DEFAULT_FROM_EMAIL = 'info@connectme.com'
 
 
